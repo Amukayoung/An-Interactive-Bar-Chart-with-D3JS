@@ -40,3 +40,21 @@ Mocked_Data = [
 		population: "93,000",
 	},
 ];
+
+const ChartWidth = 750;
+const ChartHeight = 450;
+
+const chartContainer = d3
+	.select("svg")
+	.attr("width", ChartWidth)
+	.attr("height", ChartHeight);
+
+const chart = chartContainer
+	.append("g")
+	.selectAll(".bar")
+	.data(Mocked_Data)
+	.enter()
+	.append("rect")
+	.classed("bar", true)
+	.attr("width")
+	.attr("height");
