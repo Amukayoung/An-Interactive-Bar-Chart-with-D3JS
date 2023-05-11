@@ -98,3 +98,4 @@ const listItems = d3
 	.append("li");
 
 listItems.append("span").text((data) => data.cityName);
+listItems.append("input").attr("type", "checkbox").attr("checked", true);
