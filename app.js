@@ -57,6 +57,8 @@ const chartContainer = d3
 x.domain(Mocked_Data.map((data) => data.cityName));
 y.domain([0, d3.max(Mocked_Data, (data) => data.population) + 10]);
 
+chartContainer.append("g").call(d3.axisBottom(x)).attr("color", "#4f009e");
+
 const chart = chartContainer
 	.append("g")
 	.selectAll(".bar")
