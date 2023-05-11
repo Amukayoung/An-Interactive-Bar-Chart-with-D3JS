@@ -40,9 +40,12 @@ Mocked_Data = [
 		population: 93,
 	},
 ];
-
+const Margins = {
+	top: 20,
+	bottom: 10,
+};
 const ChartWidth = 650;
-const ChartHeight = 450;
+const ChartHeight = 450 - Margins.top - Margins.bottom;
 
 const x = d3.scaleBand().rangeRound([0, ChartWidth]).padding(0.2);
 const y = d3
@@ -53,11 +56,15 @@ const y = d3
 const chartContainer = d3
 	.select("svg")
 	.attr("width", ChartWidth)
-	.attr("height", ChartHeight);
+	.attr("height", ChartHeight + Margins.top + Margins.bottom);
 x.domain(Mocked_Data.map((data) => data.cityName));
 y.domain([0, d3.max(Mocked_Data, (data) => data.population) + 10]);
 
-chartContainer.append("g").call(d3.axisBottom(x)).attr("color", "#4f009e");
+chartContainer
+	.append("g")
+	.call(d3.axisBottom(x).tickSize(0))
+	.attr("transform", `translate(0,${ChartHeight})`)
+	.attr("color", "#4f009e");
 
 const chart = chartContainer
 	.append("g")
@@ -78,6 +85,16 @@ chartContainer
 	.append("text")
 	.text((data) => data.population)
 	.attr("x", (data) => x(data.cityName) + x.bandwidth() / 2)
-	.attr("y", (data) => y(data.population) - 20)
+	.attr("y", (data) => y(data.population) - 15)
 	.attr("text-anchor", "middle")
 	.classed("label", true);
+
+const listItems = d3
+	.select("#data")
+	.select("ul")
+	.selectAll("li")
+	.data(Mocked_Data)
+	.enter()
+	.append("li");
+
+listItems.append("span").text((data) => data.cityName);
