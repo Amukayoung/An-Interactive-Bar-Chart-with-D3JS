@@ -41,23 +41,21 @@ Mocked_Data = [
 	},
 ];
 
-const ChartWidth = 750;
-const ChartHeight = 500;
+const ChartWidth = 650;
+const ChartHeight = 450;
 
-const x = d3
-	.scaleBand()
-	.domain(Mocked_Data.map((data) => data.cityName))
-	.rangeRound([0, ChartWidth])
-	.padding(0.2);
+const x = d3.scaleBand().rangeRound([0, ChartWidth]).padding(0.2);
 const y = d3
 	.scaleLinear()
-	.domain([0, d3.max(Mocked_Data, (data) => data.population) + 10])
+
 	.range([ChartHeight, 0]);
 
 const chartContainer = d3
 	.select("svg")
 	.attr("width", ChartWidth)
 	.attr("height", ChartHeight);
+x.domain(Mocked_Data.map((data) => data.cityName));
+y.domain([0, d3.max(Mocked_Data, (data) => data.population) + 10]);
 
 const chart = chartContainer
 	.append("g")
@@ -71,7 +69,7 @@ const chart = chartContainer
 	.attr("x", (data) => x(data.cityName))
 	.attr("y", (data) => y(data.population));
 
-chart
+chartContainer
 	.selectAll(".label")
 	.data(Mocked_Data)
 	.enter()
@@ -80,4 +78,4 @@ chart
 	.attr("x", (data) => x(data.cityName) + x.bandwidth() / 2)
 	.attr("y", (data) => y(data.population) - 20)
 	.attr("text-anchor", "middle")
-	.classed("label");
+	.classed("label", true);
