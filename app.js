@@ -45,7 +45,7 @@ const Margins = {
 	bottom: 10,
 };
 const ChartWidth = 650;
-const ChartHeight = 450 - Margins.top - Margins.bottom;
+const ChartHeight = 500 - Margins.top - Margins.bottom;
 
 let selectedData = Mocked_Data;
 
@@ -58,20 +58,19 @@ const y = d3
 const chartContainer = d3
 	.select("svg")
 	.attr("width", ChartWidth)
-	.attr("height", ChartHeight + Margins.top + Margins.bottom);
+	.attr("height", ChartHeight + Margins.top);
 x.domain(Mocked_Data.map((data) => data.cityName));
 y.domain([0, d3.max(Mocked_Data, (data) => data.population) + 10]);
 
 chartContainer
 	.append("g")
-	.call(d3.axisBottom(x).tickSize(0))
+	.call(d3.axisBottom(x))
 	.attr("transform", `translate(0,${ChartHeight})`)
 	.attr("color", "green")
 	.attr("font-size", "16px");
 let unselectedIds = [];
 function renderCharts() {
 	const chart = chartContainer
-
 		.selectAll(".bar")
 		.data(selectedData, (data) => data.id)
 		.enter()
@@ -93,7 +92,7 @@ function renderCharts() {
 		.data(selectedData, (data) => data.id)
 		.enter()
 		.append("text")
-		.text((data) => data.population)
+		.text((data) => `${data.population} 000`)
 		.attr("x", (data) => x(data.cityName) + x.bandwidth() / 2)
 		.attr("y", (data) => y(data.population) - 15)
 		.attr("text-anchor", "middle")
@@ -115,12 +114,13 @@ const listItems = d3
 	.append("li");
 
 listItems.append("span").text((data) => data.cityName);
+
 listItems
 	.append("input")
 	.attr("type", "checkbox")
 	.attr("checked", true)
+	.attr("background-color", "green")
 	.on("change", (event, data) => {
-		console.log(data);
 		if (unselectedIds.indexOf(data.id) === -1) {
 			unselectedIds.push(data.id);
 		} else {
