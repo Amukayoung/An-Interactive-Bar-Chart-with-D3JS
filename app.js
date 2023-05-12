@@ -47,6 +47,8 @@ const Margins = {
 const ChartWidth = 650;
 const ChartHeight = 450 - Margins.top - Margins.bottom;
 
+let selectedData = Mocked_Data;
+
 const x = d3.scaleBand().rangeRound([0, ChartWidth]).padding(0.2);
 const y = d3
 	.scaleLinear()
@@ -65,29 +67,43 @@ chartContainer
 	.call(d3.axisBottom(x).tickSize(0))
 	.attr("transform", `translate(0,${ChartHeight})`)
 	.attr("color", "#4f009e");
+let unselectedIds = [];
+function renderCharts() {
+	const chart = chartContainer
 
-const chart = chartContainer
-	.append("g")
-	.selectAll(".bar")
-	.data(Mocked_Data)
-	.enter()
-	.append("rect")
-	.classed("bar", true)
-	.attr("width", x.bandwidth())
-	.attr("height", (data) => ChartHeight - y(data.population))
-	.attr("x", (data) => x(data.cityName))
-	.attr("y", (data) => y(data.population));
+		.selectAll(".bar")
+		.data(selectedData, (data) => data.id)
+		.enter()
+		.append("rect")
+		.attr("id", (data) => data.id)
+		.classed("bar", true)
+		.attr("width", x.bandwidth())
+		.attr("height", (data) => ChartHeight - y(data.population))
+		.attr("x", (data) => x(data.cityName))
+		.attr("y", (data) => y(data.population));
+	chartContainer
+		.selectAll(".bar")
+		.data(selectedData, (data) => data.id)
+		.exit()
+		.remove();
 
-chartContainer
-	.selectAll(".label")
-	.data(Mocked_Data)
-	.enter()
-	.append("text")
-	.text((data) => data.population)
-	.attr("x", (data) => x(data.cityName) + x.bandwidth() / 2)
-	.attr("y", (data) => y(data.population) - 15)
-	.attr("text-anchor", "middle")
-	.classed("label", true);
+	chartContainer
+		.selectAll(".label")
+		.data(selectedData, (data) => data.id)
+		.enter()
+		.append("text")
+		.text((data) => data.population)
+		.attr("x", (data) => x(data.cityName) + x.bandwidth() / 2)
+		.attr("y", (data) => y(data.population) - 15)
+		.attr("text-anchor", "middle")
+		.classed("label", true);
+	chartContainer
+		.selectAll(".label")
+		.data(selectedData, (data) => data.id)
+		.exit()
+		.remove();
+}
+renderCharts();
 
 const listItems = d3
 	.select("#data")
@@ -98,4 +114,19 @@ const listItems = d3
 	.append("li");
 
 listItems.append("span").text((data) => data.cityName);
-listItems.append("input").attr("type", "checkbox").attr("checked", true);
+listItems
+	.append("input")
+	.attr("type", "checkbox")
+	.attr("checked", true)
+	.on("change", (event, data) => {
+		console.log(data);
+		if (unselectedIds.indexOf(data.id) === -1) {
+			unselectedIds.push(data.id);
+		} else {
+			unselectedIds = unselectedIds.filter((id) => id !== data.id);
+		}
+		selectedData = Mocked_Data.filter(
+			(data) => unselectedIds.indexOf(data.id) === -1
+		);
+		renderCharts();
+	});
