@@ -92,7 +92,7 @@ function renderCharts() {
 		.data(selectedData, (data) => data.id)
 		.enter()
 		.append("text")
-		.text((data) => `${data.population} 000`)
+		.text((data) => `${data.population}000`)
 		.attr("x", (data) => x(data.cityName) + x.bandwidth() / 2)
 		.attr("y", (data) => y(data.population) - 15)
 		.attr("text-anchor", "middle")
