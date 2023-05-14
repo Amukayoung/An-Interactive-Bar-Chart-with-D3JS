@@ -66,7 +66,8 @@ chartContainer
 	.append("g")
 	.call(d3.axisBottom(x))
 	.attr("transform", `translate(0,${ChartHeight})`)
-	.attr("color", "green")
+	.attr("color", "blue")
+	.attr("transition", "all 3000ms")
 	.attr("font-size", "16px");
 let unselectedIds = [];
 function renderCharts() {
