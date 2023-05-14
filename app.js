@@ -79,8 +79,11 @@ function renderCharts() {
 		.attr("id", (data) => data.id)
 		.classed("bar", true)
 		.attr("width", x.bandwidth())
-		.attr("height", (data) => ChartHeight - y(data.population))
 		.attr("x", (data) => x(data.cityName))
+		.attr("y", ChartHeight) // Start the bars at the bottom of the chart
+		.transition()
+		.duration(1000)
+		.attr("height", (data) => ChartHeight - y(data.population))
 		.attr("y", (data) => y(data.population));
 	chartContainer
 		.selectAll(".bar")
