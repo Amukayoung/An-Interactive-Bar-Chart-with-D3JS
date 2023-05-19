@@ -22,7 +22,7 @@ Mocked_Data = [
 	{
 		id: "005",
 		cityName: "Soroti",
-		population: 56,
+		population: 58,
 	},
 	{
 		id: "006",
