@@ -5,6 +5,7 @@ This is a bar chart I developed using a JavaScript Visualization Library called 
 
 ## Technology
 - HTML
+- CSS
 - D3JS
 
 ## Live Demo
