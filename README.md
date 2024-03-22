@@ -1,4 +1,4 @@
-# Designing a Bar Chart with D3js
+# Bar Chart with D3js
 
 ## Task
 This is a bar chart I developed using a JavaScript Visualization Library called D3Js. It's an amazing data visualization tool with your imagination as your limit
