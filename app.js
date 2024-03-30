@@ -39,10 +39,11 @@ Mocked_Data = [
 		cityName: "Jinja",
 		population: 93,
 	},
+	
 ];
 const Margins = {
-	top: 20,
-	bottom: 10,
+	top: 25,
+	bottom: 15,
 };
 const ChartWidth = 650;
 const ChartHeight = 500 - Margins.top - Margins.bottom;
